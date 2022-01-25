@@ -47,6 +47,28 @@ var saveTasks = function() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+const auditTask = function(taskLi) {
+  // get due date from task element
+  const date = $(taskLi)
+    .find('span')
+    .text()
+    .trim();
+
+  // convert to moment object at 5:00pm
+  const time = moment(date, 'L').set('hour', 17);
+
+  // remove any old classes from element
+  $(taskLi).removeClass('list-group-item-warning list-group-item-dander');
+
+  // apply new class if task is near/overdue
+  if (moment().isAfter(time)) {
+    $(taskLi).addClass('list-group-item-dander');
+  }
+  else if (Math.abs(moment().diff(time, 'days')) <= 2) {
+    $(taskLi).addClass('list-group-item-warning');
+  }
+}
+
 // modal was triggered
 $("#task-form-modal").on("show.bs.modal", function() {
   // clear values
@@ -189,7 +211,7 @@ $("#remove-tasks").on("click", function() {
   saveTasks();
 });
 
-//make list item cards sortable
+// make list item cards sortable
 $(".card .list-group").sortable({
   connectWith: $(".card .list-group"),
   scroll: false,
@@ -258,29 +280,6 @@ $('#modalDueDate').datepicker({
     $(this).trigger("change");
   }
 });
-
-const auditTask = function(taskLi) {
-  // get due date from task element
-  const date = $(taskLi)
-    .find('span')
-    .text()
-    .trim();
-
-  // consvert ot moment object at 5:00pm
-  const time = moment(date, 'L').set('hour', 17);
-
-  // remove any old classes from element
-  $(taskLi).removeClass('list-group-item-warning list-group-item-dander');
-
-  // apply new class if task is near/overdue
-  if (moment().isAfter(time)) {
-    $(taskLi).addClass('list-group-item-dander');
-  }
-  else if (Math.abs(moment().diff(time, 'days')) <= 2) {
-    $(taskLi).addClass('list-group-item-warning');
-  }
-}
-
 
 // load tasks for the first time
 loadTasks();

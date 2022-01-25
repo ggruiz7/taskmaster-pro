@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
   <div class="row min-vh-100 no-gutters">
     <header class="col-12 col-lg-3 bg-dark text-light sticky-top d-flex flex-column p-4 p-lg-3">
       <div>
@@ -29,33 +28,30 @@
         excepturi aut non laudantium sequi fugit officiis optio deleniti asperiores rem eius laborum maxime blanditiis
         culpa, quis iste?</p>
     </header>
+
     <main class="col-12 col-lg-9 d-flex flex-column">
       <div class="m-5 row justify-content-around">
-          <!--  -->
           <div class="col-12 col-md-6 col-xl-3 mb-3">
             <div class="card">
-              <h4 class="card-header bg-dark text-light">To Do</h4>
+              <h4 class="card-header bg-dark text-light d-flex align-items-center">To Do</h4>
               <ul id="list-toDo" class="list-group list-group-flush"></ul>
             </div>
           </div>
-          <!--  -->
           <div class="col-12 col-md-6 col-xl-3 mb-3">
             <div class="card">
-              <h4 class="card-header bg-dark text-light">In Progress</h4>
+              <h4 class="card-header bg-dark text-light d-flex align-items-center">In Progress</h4>
               <ul id="list-inProgress" class="list-group list-group-flush"></ul>
             </div>
           </div>
-          <!--  -->
           <div class="col-12 col-md-6 col-xl-3 mb-3">
             <div class="card">
-              <h4 class="card-header bg-dark text-light">In Review</h4>
+              <h4 class="card-header bg-dark text-light d-flex align-items-center">In Review</h4>
               <ul id="list-inReview" class="list-group list-group-flush"></ul>
             </div>
           </div>
-          <!-- -->
           <div class="col-12 col-md-6 col-xl-3 mb-3">
             <div class="card">
-              <h4 class="card-header bg-dark text-light">Done</h4>
+              <h4 class="card-header bg-dark text-light d-flex align-items-center">Done</h4>
               <ul id="list-done" class="list-group list-group-flush"></ul>
             </div>
           </div>
@@ -78,18 +74,20 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+
         <div class="modal-body">
           <form>
             <div class="form-group">
               <label for="modalTaskDescription">Task description</label>
               <textarea class="form-control" id="modalTaskDescription" rows="3"></textarea>
-            </div>
+            </div>           
             <div class="form-group">
               <label for="modalDueDate">Due date</label>
               <input type="text" class="form-control" id="modalDueDate" placeholder="mm/dd/yyyy" autocomplete="off" />
             </div>
           </form>
         </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Save Task</button>
