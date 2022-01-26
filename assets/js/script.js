@@ -67,6 +67,8 @@ const auditTask = function(taskLi) {
   else if (Math.abs(moment().diff(time, 'days')) <= 2) {
     $(taskLi).addClass('list-group-item-warning');
   }
+
+  console.log(taskLi);
 }
 
 // modal was triggered
@@ -82,7 +84,7 @@ $("#task-form-modal").on("shown.bs.modal", function() {
 });
 
 // save button in modal was clicked
-$("#task-form-modal .btn-primary").click(function() {
+$("#task-form-modal .btn-save").click(function() {
   // get form values
   var taskText = $("#modalTaskDescription")
     .val()
@@ -211,42 +213,49 @@ $("#remove-tasks").on("click", function() {
   saveTasks();
 });
 
-// make list item cards sortable
+// make list item cards sortable & enable drag/drop functionality
 $(".card .list-group").sortable({
+  // enable dragging across lists
   connectWith: $(".card .list-group"),
   scroll: false,
   tolerance: "pointer",
   helper: "clone",
-  activate: event => console.log("activate", this),
-  deactivate: event => console.log("deactivate", this),
-  over: event => console.log("over", event.target),
-  out: event => console.log("out", event.target),
-  update: function(event) {
+  activate: function(event, ui) {
+    $(this).addClass("dropover");
+    $(".bottom-trash").addClass("bottom-trash-drag");
+  },
+  deactivate: function(event, ui) {
+    $(this).removeClass("dropover");
+    $(".bottom-trash").removeClass("bottom-trash-drag");
+  },
+  over: function(event) {
+    $(event.target).addClass("dropover-active");
+  },
+  out: function(event) {
+    $(event.target).removeClass("dropover-active");
+  },
+  update: function () {
     // array to store task data in
     const tempArr = [];
 
     // loop over current set of children in sortable list
     $(this).children().each(function() {
-      var text = $(this)
-        .find("p")
-        .text()
-        .trim();
-      var date = $(this)
-        .find("span")
-        .text()
-        .trim();
-
-      // add task data to new array as an object
-      tempArr.push({
-        text: text,
-        date: date
+      // save values in temporary array
+      tempArr.push ({
+        text: $(this)
+          .find('p')
+          .text()
+          .trim(),
+        date: $(this)
+          .find('span')
+          .text()
+          .trim()
       })
-
       console.log(tempArr);
-    });
+    })
 
     // trim down list's id to  match object property
-    const arrName =$(this)
+    const arrName = $(this)
       .attr('id')
       .replace('list-', "");
 
@@ -284,45 +293,8 @@ $('#modalDueDate').datepicker({
 // load tasks for the first time
 loadTasks();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// $(".card .list-group").sortable({
-//   connectWith: $(".card .list-group"),
-//   scroll: false,
-//   tolerance: "pointer",
-//   helper: "clone",
-//   activate: function(event) {
-//     console.log("activate", this);
-//   },
-//   deactivate: function(event) {
-//     console.log("deactivate", this);
-//   },
-//   over: function(event) {
-//     console.log("over", event.target);
-//   },
-//   out: function(event) {
-//     console.log("out", event.target);
-//   },
-//   update: function(event) {
-//     console.log("update", this);
-//   }
-// });
+setInterval(function() {
+  $(".card .list-group-item").each(function (index, el) {
+    auditTask(el);
+  })
+}, (1000 * 60) * 30);
