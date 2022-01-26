@@ -58,11 +58,11 @@ const auditTask = function(taskLi) {
   const time = moment(date, 'L').set('hour', 17);
 
   // remove any old classes from element
-  $(taskLi).removeClass('list-group-item-warning list-group-item-dander');
+  $(taskLi).removeClass('list-group-item-warning list-group-item-danger');
 
   // apply new class if task is near/overdue
   if (moment().isAfter(time)) {
-    $(taskLi).addClass('list-group-item-dander');
+    $(taskLi).addClass('list-group-item-danger');
   }
   else if (Math.abs(moment().diff(time, 'days')) <= 2) {
     $(taskLi).addClass('list-group-item-warning');
